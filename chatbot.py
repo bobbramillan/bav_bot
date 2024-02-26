@@ -27,7 +27,7 @@ if prompt:
     with st.chat_message("assistant"):
         message_placeholder = st.empty()
         full_response = ""
-        for response in openai.Completion.create(
+        for response in openai.ChatCompletion.create(
             engine=st.session_state["openai_model"],
             messages=[
                 {"role": m["role"], "content": m["content"]}

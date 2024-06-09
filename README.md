@@ -13,7 +13,7 @@ Bav Bot is a simple interactive chatbot built using Streamlit and OpenAI's GPT-3
 1. Clone the repository:
 
     ```sh
-    git clone https://github.com/your-username/bav-bot.git
+    git clone https://github.com/bobbramillan/bav_bot.git
     cd bav-bot
     ```
 

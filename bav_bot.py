@@ -1,8 +1,9 @@
 import openai
 import streamlit as st
+import os
 
 # Initialize the OpenAI client with your API key
-openai.api_key = "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"
+openai.api_key = os.getenv("OPENAI_API_KEY")  # Ensure you set this environment variable securely
 
 st.title("Bav Bot")
 
@@ -27,15 +28,18 @@ if prompt:
     with st.chat_message("assistant"):
         message_placeholder = st.empty()
         full_response = ""
-        for response in openai.ChatCompletion.create(
-            engine=st.session_state["openai_model"],
+        response = openai.ChatCompletion.create(
+            model=st.session_state["openai_model"],
             messages=[
                 {"role": m["role"], "content": m["content"]}
                 for m in st.session_state.messages
             ],
             stream=True,
-        ).choices:
-            full_response += response["text"]
+        )
+        for chunk in response:
+            chunk_message = chunk['choices'][0]['delta'].get('content', '')
+            full_response += chunk_message
             message_placeholder.markdown(full_response + " ")
+
         message_placeholder.markdown(full_response)
     st.session_state.messages.append({"role": "assistant", "content": full_response})
